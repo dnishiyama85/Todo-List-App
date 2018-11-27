@@ -13,11 +13,19 @@ export default class TodoList extends React.Component {
     this.setState({ todo: '' });
   }
 
+  onSubmit(e) {
+    e.preventDefault();
+    this.onClickAdd();
+  }
+
   render() {
     console.log(this.props);
 
     // Store の Todo からリストを生成
-    const list = this.props.todo.todoList.slice().reverse().map((todo, index) => {
+    let todoList = this.props.todo.todoList.filter( (todo) => !todo.isCompleted ).reverse();
+    const completedList = this.props.todo.todoList.filter( (todo) => todo.isCompleted).reverse();
+    todoList = todoList.concat(completedList);
+    const list = todoList.map((todo, index) => {
       return (
         <li key={ index }>
           <Todo todo={ todo }
@@ -30,8 +38,10 @@ export default class TodoList extends React.Component {
 
     return (
       <div>
-        <input id='input_add_todo' type="text" onChange={elm => this.setState({ todo: elm.target.value })}/>
-        <button onClick={ () => this.onClickAdd() }>追加</button>
+        <form onSubmit={ this.onSubmit.bind(this) }>
+          <input id='input_add_todo' type="text" onChange={elm => this.setState({ todo: elm.target.value })}/>
+          <button type='submit' onClick={ () => this.onClickAdd() }>追加</button>
+        </form>
         <br/>
         <ul>
           { list }

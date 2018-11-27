@@ -13,7 +13,6 @@ import $ from 'jquery';
 
 const store = createStore();
 
-console.log("jquery start");
 $.get('http://minamiya.info:8888/get')
   .done(
     (todoList) => {
@@ -21,7 +20,6 @@ $.get('http://minamiya.info:8888/get')
       store.dispatch(actions.dataFetchCompleted(todoList));
     })
   .fail( (d) => { alert('データ取得エラー！'); console.log(d); });
-console.log("jquery end");
 
 ReactDOM.render(
   <Provider store={store}>

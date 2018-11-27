@@ -6,3 +6,7 @@
     display: inline;
     margin-left: 10px;
 }
+
+.todo_item span.completed {
+    text-decoration: line-through;
+}

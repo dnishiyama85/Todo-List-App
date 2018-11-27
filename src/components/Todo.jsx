@@ -26,13 +26,14 @@ export default class Todo extends React.Component {
     const todo = this.props.todo;
     const onComplete = this.props.onComplete;
     const onDelete = this.props.onDelete;
+    const completed = todo.isCompleted ? 'completed' : '';
     return (
       <ul className='todo_item'>
-        <li><span><input type='checkbox' checked={ todo.isCompleted } onChange={ () => onComplete(todo) }/>{ todo.title }</span></li>
+        <li><span className={completed}><input type='checkbox' checked={ todo.isCompleted } onChange={ () => onComplete(todo) }/>{ todo.title }</span></li>
         <li><span>{todo.estimation}min.</span></li>
         <li>{ this._status(todo) }</li>
         <li>{ this._startButton(todo) }</li>
-        <li><span><button onClick={ () => onDelete(todo) }><span>❌</span></button></span></li>
+        <li><span><button onClick={ () => onDelete(todo) }><span>x</span></button></span></li>
       </ul>
     )
   }

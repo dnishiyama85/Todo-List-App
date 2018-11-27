@@ -83,6 +83,15 @@ export const todoReducer = (state = initialState, action) => {
     case 'DATA_FETCH_COMPLETED': {
       const fetchedState = action.payload.fetchedState;
       const newState = fetchedState;
+      // 日付をオブジェクトに
+      newState.todoList.forEach( (todo) => {
+        if (todo.start) {
+          todo.start = new Date(todo.start);
+        }
+        if (todo.finish) {
+          todo.finish = new Date(todo.finish);
+        }
+      });
       return newState;
     }
 
