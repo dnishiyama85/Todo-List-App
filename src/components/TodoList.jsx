@@ -17,7 +17,7 @@ export default class TodoList extends React.Component {
     console.log(this.props);
 
     // Store の Todo からリストを生成
-    const list = this.props.todo.todoList.reverse().map((todo, index) => {
+    const list = this.props.todo.todoList.slice().reverse().map((todo, index) => {
       return (
         <li key={ index }>
           <Todo todo={ todo }
