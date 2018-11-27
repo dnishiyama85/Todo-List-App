@@ -3,11 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import * as actions from './actions/Todo';
+
 
 import { Provider } from 'react-redux';
 import createStore from './createStore';
 
+import $ from 'jquery';
+
 const store = createStore();
+
+console.log("jquery start");
+$.get('http://minamiya.info:8888/get')
+  .done(
+    (todoList) => {
+      console.log(todoList);
+      store.dispatch(actions.dataFetchCompleted(todoList));
+    })
+  .fail( (d) => { alert('データ取得エラー！'); console.log(d); });
+console.log("jquery end");
 
 ReactDOM.render(
   <Provider store={store}>

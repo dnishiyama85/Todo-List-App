@@ -1,7 +1,19 @@
-let id = 1;
+import $ from 'jquery';
 
 const initialState = {
     todoList: []
+};
+
+function getUniqueStr(myStrong){
+  let strong = 1000;
+  if (myStrong) strong = myStrong;
+  return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16)
+}
+
+const saveState = (state) => {
+  $.post('http://minamiya.info:8888/put', JSON.stringify(state))
+    .done( () => console.log('save done'))
+    .fail( () => alert('save failed'));
 };
 
 export const todoReducer = (state = initialState, action) => {
@@ -13,7 +25,7 @@ export const todoReducer = (state = initialState, action) => {
       }
       // 新規作成
       const todo = {
-        id: id,
+        id: getUniqueStr(),
         title: action.payload.title,
         estimation: 15,
         start: null,
@@ -21,9 +33,10 @@ export const todoReducer = (state = initialState, action) => {
         isCompleted: false,
         children: [],
       };
-      id++;
       const newState = Object.assign({}, state);
       newState.todoList.push(todo);
+
+      saveState(newState);
       return newState;
     }
 
@@ -42,6 +55,7 @@ export const todoReducer = (state = initialState, action) => {
         }
       });
 
+      saveState(newState);
       return newState;
     }
 
@@ -49,6 +63,8 @@ export const todoReducer = (state = initialState, action) => {
       const todo = action.payload.todo;
       const newState = Object.assign({}, state);
       newState.todoList = state.todoList.filter(td => td.id !== todo.id);
+
+      saveState(newState);
       return newState;
     }
 
@@ -60,6 +76,13 @@ export const todoReducer = (state = initialState, action) => {
           td.start = new Date();
         }
       });
+      saveState(newState);
+      return newState;
+    }
+
+    case 'DATA_FETCH_COMPLETED': {
+      const fetchedState = action.payload.fetchedState;
+      const newState = fetchedState;
       return newState;
     }
 
