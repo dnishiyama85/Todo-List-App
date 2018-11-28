@@ -61,6 +61,21 @@ table {
     display: inline-block;
     width: 400px;
 }
+.todo_item .start_button {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+.todo_item .estimation {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+.todo_item .status {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
 .todo_item .completed {
     text-decoration: line-through;
 }

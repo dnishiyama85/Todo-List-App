@@ -4,22 +4,24 @@ export default class Todo extends React.Component {
 
   _startButton(todo) {
     if (todo.start) {
-      return (<span>{ todo.start.toLocaleTimeString() }〜</span>);
+      return (<span className='start_button'>{ todo.start.toLocaleTimeString() }〜</span>);
     } else {
       const onStart = this.props.onStart;
-      return (<button onClick={ () => onStart(todo) }>開始</button>);
+      return (<span className='start_button'><button onClick={ () => onStart(todo) }>開始</button></span>);
     }
   }
 
   _status(todo) {
+    let content = '';
     if (todo.start && todo.finish) {
       const delta = Math.floor((todo.finish.getTime() - todo.start.getTime()) / 1000 / 60);
-      return (<span>完了 ({delta}min.)</span>);
+      content = '完了 (' +  delta + 'min.)';
     } else if (todo.start) {
-      return (<span>実行中</span>);
+      content = '実行中';
     } else {
-      return (<span>未実行</span>);
+      content = '未実行';
     }
+    return (<span className='status'>{ content }</span>);
   }
 
   render() {
@@ -30,8 +32,8 @@ export default class Todo extends React.Component {
     return (
       <ul className='todo_item'>
         <li><span className={'title' + completed}><input type='checkbox' checked={ todo.isCompleted } onChange={ () => onComplete(todo) }/>{ todo.title }</span></li>
-        <li><span>{todo.estimation}min.</span></li>
-        <li>{ this._status(todo) }</li>
+        <li><span className='estimation'>{todo.estimation}min.</span></li>
+        <li><span className='status'>{ this._status(todo) }</span></li>
         <li>{ this._startButton(todo) }</li>
         <li><span><button onClick={ () => onDelete(todo) }><span>x</span></button></span></li>
       </ul>
