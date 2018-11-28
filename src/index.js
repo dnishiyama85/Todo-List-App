@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import * as actions from './actions/Todo';
+import Config from './config.js';
 
 
 import { Provider } from 'react-redux';
@@ -13,7 +14,7 @@ import $ from 'jquery';
 
 const store = createStore();
 
-$.get('http://minamiya.info:8888/get')
+$.get(Config.apiURL + '/get')
   .done(
     (todoList) => {
       console.log(todoList);

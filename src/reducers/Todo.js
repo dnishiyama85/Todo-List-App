@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Config from '../config';
 
 const initialState = {
     todoList: []
@@ -11,7 +12,7 @@ function getUniqueStr(myStrong){
 }
 
 const saveState = (state) => {
-  $.post('http://minamiya.info:8888/put', JSON.stringify(state))
+  $.post(Config.apiURL + '/put', JSON.stringify(state))
     .done( () => console.log('save done'))
     .fail( () => alert('save failed'));
 };
