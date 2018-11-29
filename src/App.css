@@ -73,7 +73,7 @@ table {
 }
 .todo_item .status {
     display: inline-block;
-    width: 100px;
+    width: 150px;
     text-align: right;
 }
 .todo_item .completed {
