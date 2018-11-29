@@ -81,6 +81,22 @@ export const todoReducer = (state = initialState, action) => {
       return newState;
     }
 
+    case 'RESET_TODO': {
+      const todo = action.payload.todo;
+      const newState = Object.assign({}, state);
+      newState.todoList.forEach((td) => {
+        if (td.id === todo.id) {
+          if (window.confirm('未実行に戻しますか？')) {
+            td.start = null;
+            td.isCompleted = false;
+            td.finish = null;
+          }
+        }
+      });
+      saveState(newState);
+      return newState;
+    }
+
     case 'DATA_FETCH_COMPLETED': {
       const fetchedState = action.payload.fetchedState;
       const newState = fetchedState;

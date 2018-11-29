@@ -26,6 +26,13 @@ export const startTodo = (todo) => {
   }
 };
 
+export const resetTodo = (todo) => {
+  return {
+    type: 'RESET_TODO',
+    payload: { todo: todo }
+  }
+};
+
 // データ取得完了
 export const dataFetchCompleted = (fetchedState) => {
   return {

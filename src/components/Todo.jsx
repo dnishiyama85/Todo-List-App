@@ -4,7 +4,7 @@ export default class Todo extends React.Component {
 
   _startButton(todo) {
     if (todo.start) {
-      return (<span className='start_button'>{ todo.start.toLocaleTimeString() }〜</span>);
+      return (<span className='start_button' >{ todo.start.toLocaleTimeString() }〜</span>);
     } else {
       const onStart = this.props.onStart;
       return (<span className='start_button'><button onClick={ () => onStart(todo) }>開始</button></span>);
@@ -17,7 +17,8 @@ export default class Todo extends React.Component {
       const delta = Math.floor((todo.finish.getTime() - todo.start.getTime()) / 1000 / 60);
       content = '完了 (' +  delta + 'min.)';
     } else if (todo.start) {
-      content = '実行中';
+      const onReset = this.props.onReset;
+      return (<span className='status'><span className='doing' onClick={ onReset.bind(null, todo) }>実行中</span></span>);
     } else {
       content = '未実行';
     }

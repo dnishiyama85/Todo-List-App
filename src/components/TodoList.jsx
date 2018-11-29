@@ -32,6 +32,7 @@ export default class TodoList extends React.Component {
                 onComplete={ this.props.completeTodo }
                 onDelete={ this.props.deleteTodo }
                 onStart={ this.props.startTodo }
+                onReset={ this.props.resetTodo }
           />
         </li>)
     });
