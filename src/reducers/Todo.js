@@ -39,7 +39,7 @@ export const todoReducer = (state = initialState, action) => {
         children: [],
       };
       const newState = Object.assign({}, state);
-      newState.todoList.push(todo);
+      newState.todoList.unshift(todo);
 
       saveState(newState);
       return newState;
