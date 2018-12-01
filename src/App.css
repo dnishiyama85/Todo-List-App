@@ -52,6 +52,19 @@ table {
     margin: 20px;
 }
 
+.todo_item {
+    display: inline;
+}
+
+.todo_item_handle {
+    display: inline-block;;
+    width: 10px;
+}
+
+.my-handle {
+    cursor: move;
+}
+
 .todo_item li {
     display: inline;
     margin-left: 10px;

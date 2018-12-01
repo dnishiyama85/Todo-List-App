@@ -14,7 +14,8 @@ const mapDispatchToProps = dispatch => {
     completeTodo: (todo) => dispatch(actions.completeTodo(todo)),
     deleteTodo:   (todo) => dispatch(actions.deleteTodo(todo)),
     startTodo:    (todo) => dispatch(actions.startTodo(todo)),
-    resetTodo:  (todo) => dispatch(actions.resetTodo(todo)),
+    resetTodo:    (todo) => dispatch(actions.resetTodo(todo)),
+    sortTodo:     (ids) => dispatch(actions.sortTodo(ids)),
   }
 };
 

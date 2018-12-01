@@ -30,14 +30,18 @@ export default class Todo extends React.Component {
     const onComplete = this.props.onComplete;
     const onDelete = this.props.onDelete;
     const completed = todo.isCompleted ? ' completed' : '';
+    const draggable = todo.isCompleted ? (<span className='todo_item_handle'></span>) : (<span className='todo_item_handle my-handle'>::</span>);
     return (
-      <ul className='todo_item'>
-        <li><span className={'title' + completed}><input type='checkbox' checked={ todo.isCompleted } onChange={ () => onComplete(todo) }/>{ todo.title }</span></li>
-        <li><span className='estimation'>{todo.estimation}min.</span></li>
-        <li><span className='status'>{ this._status(todo) }</span></li>
-        <li>{ this._startButton(todo) }</li>
-        <li><span><button onClick={ () => onDelete(todo) }><span>x</span></button></span></li>
-      </ul>
+      <div>
+        { draggable }
+        <ul className='todo_item'>
+          <li><span className={'title' + completed}><input type='checkbox' checked={ todo.isCompleted } onChange={ () => onComplete(todo) }/>{ todo.title }</span></li>
+          <li><span className='estimation'>{todo.estimation}min.</span></li>
+          <li><span className='status'>{ this._status(todo) }</span></li>
+          <li>{ this._startButton(todo) }</li>
+          <li><span><button onClick={ () => onDelete(todo) }><span>x</span></button></span></li>
+        </ul>
+      </div>
     )
   }
 }

@@ -40,3 +40,11 @@ export const dataFetchCompleted = (fetchedState) => {
     payload: { fetchedState: fetchedState }
   }
 };
+
+// 並び替え
+export const sortTodo = (ids) => {
+  return {
+    type: 'SORT_TODO',
+    payload: { ids: ids }
+  }
+};

@@ -1,9 +1,13 @@
 import $ from 'jquery';
 import Config from '../config';
 
-const initialState = {
+function createEmptyState() {
+  return {
     todoList: []
-};
+  }
+}
+
+const initialState = createEmptyState();
 
 function getUniqueStr(myStrong){
   let strong = 1000;
@@ -93,6 +97,26 @@ export const todoReducer = (state = initialState, action) => {
           }
         }
       });
+      saveState(newState);
+      return newState;
+    }
+
+    case 'SORT_TODO': {
+      // ↓これは完了していないアイテムの、並び替わったIDのリスト
+      const ids = action.payload.ids;
+      // 完了したやつはそのままの順番を保ちつつ、
+      // 並び替えたアイテムを入れていく
+      const newState = createEmptyState();
+      for (let i = 0; i < state.todoList.length; i++) {
+        const todo = state.todoList[i];
+        if (todo.isCompleted) {
+          newState.todoList.push(todo);
+        } else {
+          const id = ids.shift();
+          const todo2 = state.todoList.find( (td) => td.id === id );
+          newState.todoList.push(todo2);
+        }
+      }
       saveState(newState);
       return newState;
     }
