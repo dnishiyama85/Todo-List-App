@@ -1,7 +1,7 @@
-export const addTodo = (title) => {
+export const addTodo = (title, listId) => {
   return {
     type: 'ADD_TODO',
-    payload: { title: title }
+    payload: { title, listId }
   };
 };
 
@@ -42,9 +42,9 @@ export const dataFetchCompleted = (fetchedState) => {
 };
 
 // 並び替え
-export const sortTodo = (ids) => {
+export const sortTodo = (ids, listId) => {
   return {
     type: 'SORT_TODO',
-    payload: { ids: ids }
+    payload: { ids, listId }
   }
 };

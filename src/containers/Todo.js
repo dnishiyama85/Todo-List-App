@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import * as actions from '../actions/Todo';
-import Todo from '../components/TodoList';
+import TodoLists from '../components/TodoLists';
 
 const mapStateToProps = state => {
   return {
@@ -10,13 +10,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addTodo:      (todo) => dispatch(actions.addTodo(todo)),
+    addTodo:      (todo, listId) => dispatch(actions.addTodo(todo, listId)),
     completeTodo: (todo) => dispatch(actions.completeTodo(todo)),
     deleteTodo:   (todo) => dispatch(actions.deleteTodo(todo)),
     startTodo:    (todo) => dispatch(actions.startTodo(todo)),
     resetTodo:    (todo) => dispatch(actions.resetTodo(todo)),
-    sortTodo:     (ids) => dispatch(actions.sortTodo(ids)),
+    sortTodo:     (ids, listId) => dispatch(actions.sortTodo(ids, listId)),
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todo);
+export default connect(mapStateToProps, mapDispatchToProps)(TodoLists);

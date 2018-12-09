@@ -16,9 +16,9 @@ const store = createStore();
 
 $.get(Config.apiURL + '/get')
   .done(
-    (todoList) => {
-      console.log(todoList);
-      store.dispatch(actions.dataFetchCompleted(todoList));
+    (todoLists) => {
+      console.log(todoLists);
+      store.dispatch(actions.dataFetchCompleted(todoLists));
     })
   .fail( (d) => { alert('データ取得エラー！'); console.log(d); });
 

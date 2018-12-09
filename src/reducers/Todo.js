@@ -3,7 +3,7 @@ import Config from '../config';
 
 function createEmptyState() {
   return {
-    todoList: []
+    todoLists : {}
   }
 }
 
@@ -38,8 +38,14 @@ export const todoReducer = (state = initialState, action) => {
         isCompleted: false,
         children: [],
       };
+      const listId = action.payload.listId;
       const newState = Object.assign({}, state);
-      newState.todoList.unshift(todo);
+      const list = state.todoLists[listId];
+      if (!list) {
+        alert('追加先リストがない: listId = ' + listId);
+        return state;
+      }
+      list.unshift(todo);
 
       saveState(newState);
       return newState;
@@ -48,17 +54,19 @@ export const todoReducer = (state = initialState, action) => {
     case 'COMPLETE_TODO': {
       const todo = action.payload.todo;
       const newState = Object.assign({}, state);
-
-      newState.todoList.forEach((td) => {
-        if (td.id === todo.id) {
-          td.isCompleted = !todo.isCompleted;
-          td.finish = todo.isCompleted ? new Date() : null;
-          // 開始してないのに終了する場合、開始時刻 = 終了時刻としてしまう
-          if (todo.isCompleted && !td.start) {
-            td.start = td.finish;
+      for (let listId in newState.todoLists) {
+        const list = newState.todoLists[listId];
+        list.forEach((td) => {
+          if (td.id === todo.id) {
+            td.isCompleted = !todo.isCompleted;
+            td.finish = todo.isCompleted ? new Date() : null;
+            // 開始してないのに終了する場合、開始時刻 = 終了時刻としてしまう
+            if (todo.isCompleted && !td.start) {
+              td.start = td.finish;
+            }
           }
-        }
-      });
+        });
+      }
 
       saveState(newState);
       return newState;
@@ -67,7 +75,9 @@ export const todoReducer = (state = initialState, action) => {
     case 'DELETE_TODO': {
       const todo = action.payload.todo;
       const newState = Object.assign({}, state);
-      newState.todoList = state.todoList.filter(td => td.id !== todo.id);
+      for (let listId in newState.todoLists) {
+        newState.todoLists[listId] = state.todoLists[listId].filter(td => td.id !== todo.id);
+      }
 
       saveState(newState);
       return newState;
@@ -76,11 +86,13 @@ export const todoReducer = (state = initialState, action) => {
     case 'START_TODO': {
       const todo = action.payload.todo;
       const newState = Object.assign({}, state);
-      newState.todoList.forEach((td) => {
-        if (td.id === todo.id) {
-          td.start = new Date();
-        }
-      });
+      for (let listId in newState.todoLists) {
+        newState.todoLists[listId].forEach((td) => {
+          if (td.id === todo.id) {
+            td.start = new Date();
+          }
+        });
+      }
       saveState(newState);
       return newState;
     }
@@ -88,15 +100,17 @@ export const todoReducer = (state = initialState, action) => {
     case 'RESET_TODO': {
       const todo = action.payload.todo;
       const newState = Object.assign({}, state);
-      newState.todoList.forEach((td) => {
-        if (td.id === todo.id) {
-          if (window.confirm('未実行に戻しますか？')) {
-            td.start = null;
-            td.isCompleted = false;
-            td.finish = null;
+      for (let listId in newState.todoLists) {
+        newState.todoLists[listId].forEach((td) => {
+          if (td.id === todo.id) {
+            if (window.confirm('未実行に戻しますか？')) {
+              td.start = null;
+              td.isCompleted = false;
+              td.finish = null;
+            }
           }
-        }
-      });
+        });
+      }
       saveState(newState);
       return newState;
     }
@@ -104,17 +118,24 @@ export const todoReducer = (state = initialState, action) => {
     case 'SORT_TODO': {
       // ↓これは完了していないアイテムの、並び替わったIDのリスト
       const ids = action.payload.ids;
+      const listId = action.payload.listId;
       // 完了したやつはそのままの順番を保ちつつ、
       // 並び替えたアイテムを入れていく
-      const newState = createEmptyState();
-      for (let i = 0; i < state.todoList.length; i++) {
-        const todo = state.todoList[i];
+      const newState = Object.assign({}, state);
+      const oldList = state.todoLists[listId];
+      const newList = newState.todoLists[listId] = []; // いったん空にする
+      if (!oldList) {
+        alert('リストがない: listId = ' + listId);
+        return state;
+      }
+      for (let i = 0; i < oldList.length; i++) {
+        const todo = oldList[i];
         if (todo.isCompleted) {
-          newState.todoList.push(todo);
+          newList[listId].push(todo);
         } else {
           const id = ids.shift();
-          const todo2 = state.todoList.find( (td) => td.id === id );
-          newState.todoList.push(todo2);
+          const todo2 = oldList.find( (td) => td.id === id );
+          newList.push(todo2);
         }
       }
       saveState(newState);
@@ -125,14 +146,16 @@ export const todoReducer = (state = initialState, action) => {
       const fetchedState = action.payload.fetchedState;
       const newState = fetchedState;
       // 日付をオブジェクトに
-      newState.todoList.forEach( (todo) => {
-        if (todo.start) {
-          todo.start = new Date(todo.start);
-        }
-        if (todo.finish) {
-          todo.finish = new Date(todo.finish);
-        }
-      });
+      for (let listId in newState.todoLists) {
+        newState.todoLists[listId].forEach((todo) => {
+          if (todo.start) {
+            todo.start = new Date(todo.start);
+          }
+          if (todo.finish) {
+            todo.finish = new Date(todo.finish);
+          }
+        });
+      }
       return newState;
     }
 

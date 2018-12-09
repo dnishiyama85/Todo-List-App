@@ -10,8 +10,8 @@ export default class TodoList extends React.Component {
   };
 
   onClickAdd() {
-    this.props.addTodo(this.state.todo);
-    document.getElementById('input_add_todo').value='';
+    this.props.addTodo(this.state.todo, this.props.listId);
+    document.getElementById('input_add_todo_' + this.props.listId).value='';
     this.setState({ todo: '' });
   }
 
@@ -21,19 +21,15 @@ export default class TodoList extends React.Component {
   }
 
   onChange(ids) {
-    this.props.sortTodo(ids);
+    this.props.sortTodo(ids, 0);
   }
 
   sortable = null;
 
   render() {
-    console.log(this.props);
-
     // Store の Todo からリストを生成
-    const todoList = this.props.todo.todoList.filter( (todo) => !todo.isCompleted );
-    const completedList = this.props.todo.todoList.filter( (todo) => todo.isCompleted);
-
-
+    const todoList = this.props.todoList.filter( (todo) => !todo.isCompleted );
+    const completedList = this.props.todoList.filter( (todo) => todo.isCompleted);
 
     const list = todoList.map((todo, index) => {
       return (
@@ -61,7 +57,7 @@ export default class TodoList extends React.Component {
     return (
       <div>
         <form onSubmit={ this.onSubmit.bind(this) }>
-          <input id='input_add_todo' type="text" onChange={elm => this.setState({ todo: elm.target.value })}/>
+          <input id={'input_add_todo_' + this.props.listId } type="text" onChange={elm => this.setState({ todo: elm.target.value })}/>
           <button type='submit' onClick={ () => this.onClickAdd() }>追加</button>
         </form>
         <br/>
