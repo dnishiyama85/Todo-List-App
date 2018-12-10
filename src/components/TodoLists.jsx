@@ -22,7 +22,7 @@ export default class TodoLists extends React.Component {
     });
 
     return (
-      <div>
+      <div className='todo_list'>
         {todoListsComponents}
       </div>
     );

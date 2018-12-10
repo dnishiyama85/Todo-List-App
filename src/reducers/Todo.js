@@ -40,7 +40,7 @@ export const todoReducer = (state = initialState, action) => {
       };
       const listId = action.payload.listId;
       const newState = Object.assign({}, state);
-      const list = state.todoLists[listId];
+      const list = state.todoLists[listId].list;
       if (!list) {
         alert('追加先リストがない: listId = ' + listId);
         return state;
@@ -55,7 +55,7 @@ export const todoReducer = (state = initialState, action) => {
       const todo = action.payload.todo;
       const newState = Object.assign({}, state);
       for (let listId in newState.todoLists) {
-        const list = newState.todoLists[listId];
+        const list = newState.todoLists[listId].list;
         list.forEach((td) => {
           if (td.id === todo.id) {
             td.isCompleted = !todo.isCompleted;
@@ -76,7 +76,7 @@ export const todoReducer = (state = initialState, action) => {
       const todo = action.payload.todo;
       const newState = Object.assign({}, state);
       for (let listId in newState.todoLists) {
-        newState.todoLists[listId] = state.todoLists[listId].filter(td => td.id !== todo.id);
+        newState.todoLists[listId].list = state.todoLists[listId].list.filter(td => td.id !== todo.id);
       }
 
       saveState(newState);
@@ -87,7 +87,7 @@ export const todoReducer = (state = initialState, action) => {
       const todo = action.payload.todo;
       const newState = Object.assign({}, state);
       for (let listId in newState.todoLists) {
-        newState.todoLists[listId].forEach((td) => {
+        newState.todoLists[listId].list.forEach((td) => {
           if (td.id === todo.id) {
             td.start = new Date();
           }
@@ -101,7 +101,7 @@ export const todoReducer = (state = initialState, action) => {
       const todo = action.payload.todo;
       const newState = Object.assign({}, state);
       for (let listId in newState.todoLists) {
-        newState.todoLists[listId].forEach((td) => {
+        newState.todoLists[listId].list.forEach((td) => {
           if (td.id === todo.id) {
             if (window.confirm('未実行に戻しますか？')) {
               td.start = null;
@@ -122,8 +122,8 @@ export const todoReducer = (state = initialState, action) => {
       // 完了したやつはそのままの順番を保ちつつ、
       // 並び替えたアイテムを入れていく
       const newState = Object.assign({}, state);
-      const oldList = state.todoLists[listId];
-      const newList = newState.todoLists[listId] = []; // いったん空にする
+      const oldList = state.todoLists[listId].list;
+      const newList = newState.todoLists[listId].list = []; // いったん空にする
       if (!oldList) {
         alert('リストがない: listId = ' + listId);
         return state;
@@ -147,7 +147,7 @@ export const todoReducer = (state = initialState, action) => {
       const newState = fetchedState;
       // 日付をオブジェクトに
       for (let listId in newState.todoLists) {
-        newState.todoLists[listId].forEach((todo) => {
+        newState.todoLists[listId].list.forEach((todo) => {
           if (todo.start) {
             todo.start = new Date(todo.start);
           }

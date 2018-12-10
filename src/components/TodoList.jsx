@@ -21,15 +21,15 @@ export default class TodoList extends React.Component {
   }
 
   onChange(ids) {
-    this.props.sortTodo(ids, 0);
+    this.props.sortTodo(ids, this.props.listId);
   }
 
   sortable = null;
 
   render() {
     // Store の Todo からリストを生成
-    const todoList = this.props.todoList.filter( (todo) => !todo.isCompleted );
-    const completedList = this.props.todoList.filter( (todo) => todo.isCompleted);
+    const todoList = this.props.todoList.list.filter( (todo) => !todo.isCompleted );
+    const completedList = this.props.todoList.list.filter( (todo) => todo.isCompleted);
 
     const list = todoList.map((todo, index) => {
       return (
