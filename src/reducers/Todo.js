@@ -131,7 +131,7 @@ export const todoReducer = (state = initialState, action) => {
       for (let i = 0; i < oldList.length; i++) {
         const todo = oldList[i];
         if (todo.isCompleted) {
-          newList[listId].push(todo);
+          newList.push(todo);
         } else {
           const id = ids.shift();
           const todo2 = oldList.find( (td) => td.id === id );
