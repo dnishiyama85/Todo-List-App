@@ -52,6 +52,10 @@ table {
     margin: 20px;
 }
 
+.todo_list {
+    margin-top: 20px;
+}
+
 .todo_item {
     display: inline;
 }
