@@ -53,9 +53,9 @@ export default class TodoList extends React.Component {
           />
         </li>)
     });
-
     return (
-      <div>
+      <div className='todo_list'>
+        <h2>{this.props.todoList.date}</h2>
         <form onSubmit={ this.onSubmit.bind(this) }>
           <input id={'input_add_todo_' + this.props.listId } type="text" onChange={elm => this.setState({ todo: elm.target.value })}/>
           <button type='submit' onClick={ () => this.onClickAdd() }>追加</button>

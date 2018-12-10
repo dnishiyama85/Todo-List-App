@@ -6,7 +6,9 @@ export default class TodoLists extends React.Component {
   render() {
     const props = this.props;
     const todoLists = this.props.todo.todoLists;
-    const todoListsComponents = Object.keys(todoLists).map((listId) => {
+    const todoListsComponents = Object.keys(todoLists)
+                                .sort((a, b) => todoLists[b].type - todoLists[a].type) // 積んどくリストは下に。
+                                .map((listId) => {
       return (
         <TodoList
           key={listId}
@@ -22,7 +24,7 @@ export default class TodoLists extends React.Component {
     });
 
     return (
-      <div className='todo_list'>
+      <div>
         {todoListsComponents}
       </div>
     );
